@@ -4,6 +4,7 @@ import { useAppContext } from "../context/AppContext"
 import type { ActivityEntry, FoodEntry } from "../types"
 import Card from "../components/ui/Card"
 import ProgressBar from "../components/ui/ProgressBar"
+import { Activity, FlameIcon, HamburgerIcon, ZapIcon } from "lucide-react"
 // import { , type ActivityEntry } from "../types"
 
 
@@ -52,12 +53,75 @@ const Dashboard = () => {
       <div className="dashboard-grid">
         {/* Calories card */}
         <Card className="shadow-lg col-span-2">
-            <div></div>
+            <div className="flex items-center justify-between mb-4">
+               <div className="flex items-center gap-3">
+                   <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+                    <HamburgerIcon className="w-6 h-6 text-orange-500" />
+                   </div>
+                   <div className="text-sm text-slate-500 dark:text-slate-400">
+                    <p>Calories Consumed</p>
+                    <p className="text-2xl font-bold text-slate-800 dark:text-white">{totalCalories}</p>
+                   </div>
+               </div>
+               <div className="text-right">
+                <p className="text-sm text-slate-500 dark:text-slate-400">Limit</p>
+                <p className="text-2xl font-bold text-slate-800 dark:text-white">{DAILY_CALORIE_LIMIT}</p>
+               </div>
+            </div>
             <ProgressBar value={totalCalories} max={DAILY_CALORIE_LIMIT}/>
-            <div className="flex items-center  justify-between mb-4"></div>
-            <div></div>
+            <div className="mt-4 flex justify-between items-center">
+                <div className={`px-3 py-1.5 rounded-lg ${remainingCalories >=0 ? 'bg-emerald-50 dark:bg-emerald-900/10 text-emerald-700 dark:text-emerald-400': 'bg-red-50 dark:bg-red-900/10 text-red-700 dark:text-red-400'}`}>
+                  <span className="text-sm font-medium">
+                    {remainingCalories >=0 ? `${remainingCalories} kcal remaining`: `${Math.abs(remainingCalories)} kcal over`}</span>
+                </div>
+                <span className="text-sm text-slate-400">{Math.round((totalCalories/ DAILY_CALORIE_LIMIT) * 100)} %</span>
+            </div>
+            <div className="border-t border-slate-100 dark:border-slate-800 my-4" ></div>
+            <div className="flex items-center  justify-between mb-4">
+              <div className="flex items-center gap-3">
+                   <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
+                    <FlameIcon className="w-6 h-6 text-orange-500" />
+                   </div>
+                   <div className="text-sm text-slate-500 dark:text-slate-400">
+                    <p>Calories Burned</p>
+                    <p className="text-2xl font-bold text-slate-800 dark:text-white">{totalBurned}</p>
+                   </div>
+               </div>
+               <div className="text-right">
+                <p className="text-sm text-slate-500 dark:text-slate-400">Goal</p>
+                <p className="text-2xl font-bold text-slate-800 dark:text-white">{user?.dailyCalorieBurn || 400}</p>
+               </div>
+            </div>
             <ProgressBar value={totalBurned} max={user?.dailyCalorieBurn || 400}/>
         </Card>
+
+        {/* Stats Row  */}
+
+        <div className="dashboard-card-grid">
+          {/* Active Minutes */}
+          <Card>
+            <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <Activity className="w-5 h-5 text-blue-500"/>
+                  </div>
+                  <p className="text-sm text-slate-500">Active</p>
+            </div>
+            <p className="text-2xl font-bold text-slate-800 dark:text-white">{totalActiveMinutes}</p>
+            <p className="text-sm text-slate-400">minutes today</p>
+          </Card>
+          {/* Activities Count */}
+          <Card>
+            <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <ZapIcon className="w-5 h-5 text-purple-500"/>
+                  </div>
+                  <p className="text-sm text-slate-500">Workout</p>
+            </div>
+            <p className="text-2xl font-bold text-slate-800 dark:text-white">{todayActivities.length}</p>
+            <p className="text-sm text-slate-400">activities logged</p>
+          </Card>
+
+        </div>
       </div>
     </div>
   )
