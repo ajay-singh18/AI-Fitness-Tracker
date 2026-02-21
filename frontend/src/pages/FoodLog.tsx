@@ -118,7 +118,7 @@ const FoodLog = () => {
               })}}>
                 Cancel
               </Button>
-              <Button type="submit" className="flex-1 " variant="secondary" >
+              <Button type="submit" className="flex-1 " variant="secondary" > //
                 Add Entry
               </Button>
 
