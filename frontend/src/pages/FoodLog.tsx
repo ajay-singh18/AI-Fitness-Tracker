@@ -35,7 +35,7 @@ const FoodLog = () => {
   } 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const totalCalories = entities.reduce((sum,e)=>sum+ e.calories,0)
+  const totalCalories = entities.reduce((sum,e)=>sum+ e.calories,0) //
 
   const handleQuickAdd = (activityName: string)=>{
     setFormData({...formData, mealType:activityName})
