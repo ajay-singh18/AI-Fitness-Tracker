@@ -10,7 +10,7 @@ const ActivityLog = () => {
   const [showForm,setShowForm] = useState(false)
   const [formData,setFormData] = useState({name:'',duration:0,calories: 0})
   const [error, setError] = useState('')
-  const today = new Date().toISOString().split('T')[0]; //
+  const today = new Date().toISOString().split('T')[0];
 
   const loadActivities = () => {
      const todaysActivities = allActivityLogs.filter(
