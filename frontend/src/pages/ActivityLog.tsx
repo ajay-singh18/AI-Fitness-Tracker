@@ -14,7 +14,7 @@ const ActivityLog = () => {
 
   const loadActivities = () => {
      const todaysActivities = allActivityLogs.filter(
-       (a: ActivityEntry) => a.createdAt?.split("T")[0] === today,
+       (a: ActivityEntry) => a.createdAt?.split("T")[0] === today, ///
      );
      setActivities(todaysActivities);
    };
