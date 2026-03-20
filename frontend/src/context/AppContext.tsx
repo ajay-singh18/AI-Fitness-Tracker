@@ -17,7 +17,7 @@ export const AppProvider = ({children}:{children:React.ReactNode})=>{
 
     const signup = async (credentials: Credentials)=>{
         try {
-            const {data} = await api.post('/api/auth/local/register',credentials)
+            const {data} = await api.post('/api/auth/register',credentials)
         setUser({...data.user, token:data.jwt})
         if(data?.user?.age && data?.user?.weight && data?.user?.goal){
             setOnboardingCompleted(true)
@@ -32,8 +32,8 @@ export const AppProvider = ({children}:{children:React.ReactNode})=>{
 
     const login = async(credentials: Credentials)=>{
         try {
-            const {data} = await api.post('/api/auth/local',
-            {identifier:credentials.email, password: credentials.password})
+            const {data} = await api.post('/api/auth/login',
+            {email:credentials.email, password: credentials.password})
          setUser({...data.user, token: data.jwt})   
         if(data?.user?.age && data?.user?.weight && data?.user?.goal){
             setOnboardingCompleted(true)

@@ -37,7 +37,7 @@ const FoodLog = () => {
       return toast.error('Please enter valid data')
     }
     try {
-      const {data} = await api.post('/api/food-logs',{data:formData})
+      const {data} = await api.post('/api/food-logs', formData)
     setAllFoodLogs((prev) => [...prev, data]);
     setFormData({ name: "", calories: 0, mealType: "" });
     setShowForm(false);
@@ -50,15 +50,15 @@ const FoodLog = () => {
 
   };
   
-  const handleDelete = async (documentId: string) => {
+  const handleDelete = async (id: string) => {
   try {
     const confirm = window.confirm('Are you sure you want to delete this entry?');
     if (!confirm) return;
 
-    await api.delete(`/api/food-logs/${documentId}`)
+    await api.delete(`/api/food-logs/${id}`)
 
     setAllFoodLogs((prev) =>
-      prev.filter((e) => e.documentId !== documentId)
+      prev.filter((e) => e.id !== id)
     );
   } catch (error: any) {
     console.log(error);
@@ -95,7 +95,7 @@ const handleImageChange = async (e:React.ChangeEvent<HTMLInputElement>) =>{
     }
 
     // save the result to the database
-    const {data:newEntry} = await api.post('/api/food-logs',{data: {name: result.name, calories: result.calories, mealType}})
+    const {data:newEntry} = await api.post('/api/food-logs',{name: result.name, calories: result.calories, mealType})
     // setEntries([...entries, newEntry])
     setAllFoodLogs(prev=>[...prev,newEntry])
 
@@ -338,7 +338,7 @@ const handleImageChange = async (e:React.ChangeEvent<HTMLInputElement>) =>{
                         <div className="flex items-center gap-3">
                           <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{entry.calories} kcal</span>
                           <button 
-                          onClick={()=>handleDelete(entry?.documentId || '')}
+                          onClick={()=>handleDelete(entry?.id || '')}
                         className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50  dark:hover:bg-red-900/20 rounded-lg transition-colors">
                           <Trash2Icon className="w-4 h-4" />
                         </button>

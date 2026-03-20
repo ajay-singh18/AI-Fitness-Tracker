@@ -38,7 +38,7 @@ const ActivityLog = () => {
         return toast('Please enter valid data')
       }
       try{
-        const {data} = await api.post('/api/activity-logs',{data:formData})
+        const {data} = await api.post('/api/activity-logs', formData)
         setAllActivityLogs(prev => [...prev,data])
         setFormData({name: '', duration: 0, calories:0})
         setShowForm(false)
@@ -57,12 +57,12 @@ const ActivityLog = () => {
       setShowForm(true)
     }
 
-    const handleDelete = async (documentId : string)=>{
+    const handleDelete = async (id : string)=>{
         try {
           const confirm = window.confirm('Are you sure u want to delete this entry')
           if(!confirm) return;
-          await api.delete(`/api/activity-logs/${documentId}`)
-          setAllActivityLogs(prev=>prev.filter((a)=>a.documentId !== documentId))
+          await api.delete(`/api/activity-logs/${id}`)
+          setAllActivityLogs(prev=>prev.filter((a)=>a.id !== id))
 
         } catch (error:any) {
           console.log(error);
@@ -198,7 +198,7 @@ const ActivityLog = () => {
                         <p className="font-semibold text-slate-700 dark:text-slate-200 ">{activity.duration} min</p>
                         <p className="text-xs text-slate-400 "> {activity.calories} kcal</p>
                       </div>
-                      <button onClick={()=>handleDelete(activity.documentId)} className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                      <button onClick={()=>handleDelete(activity.id)} className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors">
                        <Trash2Icon className="w-4 h-4" />
                       </button>
 

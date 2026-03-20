@@ -4,7 +4,6 @@ export type User = {
     email: string;
     username: string;
     token: string;
-    documentId?: string;
     age?: number;
     weight?: number;
     height?: number;
@@ -52,23 +51,21 @@ export interface FormData {
 
 // Food Entry
 export interface FoodEntry {
-    id: number | string;
+    id: string;
     name: string;
     calories: number;
     mealType: "breakfast" | "lunch" | "dinner" | "snack";
-    date: string;
+    date?: string;
     createdAt?: string;
-    documentId?: string;
 }
 
 // Activity Entry
 export interface ActivityEntry {
-    id: number;
+    id: string;
     name: string;
     duration: number;
     calories: number;
-    date: string;
-    documentId: string;
+    date?: string;
     createdAt?: string;
 }
 
