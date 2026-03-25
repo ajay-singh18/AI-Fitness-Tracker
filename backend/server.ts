@@ -5,9 +5,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import connectDB from './config/db';
 
-// Connect to database
-connectDB();
-
 const app = express();
 
 // Middleware
@@ -17,6 +14,20 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Initialize database connection on first request
+app.use(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error: any) {
+    console.error('Database connection failed:', error.message);
+    res.status(503).json({
+      success: false,
+      error: { message: 'Database connection failed. Please try again later.' }
+    });
+  }
+});
 
 // Basic route
 app.get('/api/health', (req: Request, res: Response) => {

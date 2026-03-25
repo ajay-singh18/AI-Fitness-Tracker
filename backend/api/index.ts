@@ -5,9 +5,6 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import connectDB from '../config/db';
 
-// Connect to database
-connectDB();
-
 const app = express();
 
 // Middleware
@@ -28,6 +25,20 @@ import userRoutes from '../routes/users';
 import foodLogRoutes from '../routes/foodLogs';
 import activityLogRoutes from '../routes/activityLogs';
 import imageAnalysisRoutes from '../routes/imageAnalysis';
+
+// Initialize database connection on first request
+app.use(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error: any) {
+    console.error('Database connection failed:', error.message);
+    res.status(503).json({
+      success: false,
+      error: { message: 'Database connection failed. Please try again later.' }
+    });
+  }
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
