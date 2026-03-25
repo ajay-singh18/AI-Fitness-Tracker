@@ -139,8 +139,8 @@ const ActivityLog = () => {
               <Input label="Activity Name" placeholder="e.g., Morning Run"  required value={formData.name} onChange={(v)=>setFormData({...formData, name: v.toString()})}/>
 
               <div className="flex gap-4"> 
-                <Input label="Calories Burned" type="number" className="flex-1" placeholder="30" min={1} max={300} required value={formData.duration} onChange={handleDurationChange} />
-                <Input label="Duration (min)" type="number" className="flex-1" placeholder="200" min={1} max={300} required value={formData.calories} onChange={(v)=>setFormData({...formData,calories:Number(v)})} />
+                <Input label="Duration (min)" type="number" className="flex-1" placeholder="30" min={1} max={300} required value={formData.duration} onChange={handleDurationChange} />
+                <Input label="Calories Burned" type="number" className="flex-1" placeholder="200" min={1} max={300} required value={formData.calories} onChange={(v)=>setFormData({...formData,calories:Number(v)})} />
               </div>
               {error && <p className="text-red-500 text-sm">{error}</p> }
               <div className="flex gap-3 pt2">
@@ -152,9 +152,8 @@ const ActivityLog = () => {
                   Cancel
                  </Button>
                  <Button type="submit" className="flex-1">
-                  Add Activity
+                  Add Activity 
                  </Button>
-
               </div>
             </form>
           </Card>
