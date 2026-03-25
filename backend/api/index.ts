@@ -3,7 +3,7 @@ dotenv.config();
 
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import connectDB from './config/db';
+import connectDB from '../config/db';
 
 // Connect to database
 connectDB();
@@ -23,11 +23,11 @@ app.get('/api/health', (req: Request, res: Response) => {
   res.json({ message: 'API is running...' });
 });
 
-import authRoutes from './routes/auth';
-import userRoutes from './routes/users';
-import foodLogRoutes from './routes/foodLogs';
-import activityLogRoutes from './routes/activityLogs';
-import imageAnalysisRoutes from './routes/imageAnalysis';
+import authRoutes from '../routes/auth';
+import userRoutes from '../routes/users';
+import foodLogRoutes from '../routes/foodLogs';
+import activityLogRoutes from '../routes/activityLogs';
+import imageAnalysisRoutes from '../routes/imageAnalysis';
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -43,13 +43,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     error: { message: err.message || 'Server Error' }
   });
 });
-
-// Local development server
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 1337;
-  app.listen(PORT, () => {
-    console.log(`Server running in development mode on port ${PORT}`);
-  });
-}
 
 export default app;
