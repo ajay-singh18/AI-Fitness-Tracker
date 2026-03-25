@@ -1,26 +1,44 @@
 import mongoose from 'mongoose';
 
 let isConnected = false;
+let connectionPromise: Promise<void> | null = null;
 
 const connectDB = async (): Promise<void> => {
-  // Avoid reconnecting if already connected (important for Vercel cold starts)
-  if (isConnected) {
-    console.log('Database already connected');
+  // If already connected, return immediately
+  if (isConnected && mongoose.connection.readyState === 1) {
+    console.log('Using existing database connection');
     return;
   }
 
-  try {
-    const uri = process.env.MONGODB_URI;
-    if (!uri) throw new Error("MONGODB_URI is not defined");
-    const conn = await mongoose.connect(uri);
-    isConnected = true;
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-  } catch (error: any) {
-    console.error(`Database connection error: ${error.message}`);
-    // Don't exit - let the request handler deal with the error
-    isConnected = false;
-    throw error; // Re-throw to be caught by the API handler
+  // If connection is in progress, wait for it
+  if (connectionPromise) {
+    return connectionPromise;
   }
+
+  connectionPromise = (async () => {
+    try {
+      const uri = process.env.MONGODB_URI;
+      if (!uri) {
+        throw new Error('MONGODB_URI environment variable is not set');
+      }
+
+      console.log('Connecting to MongoDB...');
+      await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 5000,
+        socketTimeoutMS: 45000,
+      });
+
+      isConnected = true;
+      console.log(`MongoDB Connected: ${mongoose.connection.host}`);
+    } catch (error: any) {
+      console.error(`Database connection error: ${error.message}`);
+      isConnected = false;
+      connectionPromise = null; // Reset promise on failure so next call retries
+      throw error;
+    }
+  })();
+
+  return connectionPromise;
 };
 
 export default connectDB;
