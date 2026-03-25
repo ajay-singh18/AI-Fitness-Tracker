@@ -29,7 +29,11 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-// Basic route
+// Basic routes
+app.get('/', (req: Request, res: Response) => {
+  res.send('Welcome to the AI Fitness Tracker API!');
+});
+
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ message: 'API is running...' });
 });

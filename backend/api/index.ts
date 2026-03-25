@@ -16,6 +16,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Basic routes
+app.get('/', (req: Request, res: Response) => {
+  res.send('Welcome to the AI Fitness Tracker API!');
+});
+
 // Health check - always works
 app.get('/api/health', (req: Request, res: Response) => {
   res.json({ message: 'API is running...' });
