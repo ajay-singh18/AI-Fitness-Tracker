@@ -10,7 +10,7 @@ const app = express();
 
 // Apply basic middleware
 app.use(cors({
-  origin: "https://alphafittrack.vercel.app",
+  origin: ["https://alphafittrack.vercel.app", "http://localhost:5173", "http://localhost:3000"],
   credentials: true
 }));
 app.use(express.json());
@@ -39,26 +39,6 @@ process.on('uncaughtException', (error: any) => {
   console.error('[API] Uncaught Exception:', error);
 });
 
-// Initialize routes - wrap in try-catch
-try {
-  console.log('[API] Loading routes...');
-  const authRoutes = require('../routes/auth').default;
-  const userRoutes = require('../routes/users').default;
-  const foodLogRoutes = require('../routes/foodLogs').default;
-  const activityLogRoutes = require('../routes/activityLogs').default;
-  const imageAnalysisRoutes = require('../routes/imageAnalysis').default;
-
-  app.use('/api/auth', authRoutes);
-  app.use('/api/users', userRoutes);
-  app.use('/api/food-logs', foodLogRoutes);
-  app.use('/api/activity-logs', activityLogRoutes);
-  app.use('/api/image-analysis', imageAnalysisRoutes);
-  
-  console.log('[API] Routes loaded successfully');
-} catch (error: any) {
-  console.error('[API] Error loading routes:', error?.message || error);
-}
-
 // Ensure DB connection middleware
 const connectDB = async () => {
   try {
@@ -78,6 +58,26 @@ app.use(async (req: Request, res: Response, next: NextFunction) => {
     next();
   }
 });
+
+// Initialize routes - wrap in try-catch
+try {
+  console.log('[API] Loading routes...');
+  const authRoutes = require('../routes/auth').default;
+  const userRoutes = require('../routes/users').default;
+  const foodLogRoutes = require('../routes/foodLogs').default;
+  const activityLogRoutes = require('../routes/activityLogs').default;
+  const imageAnalysisRoutes = require('../routes/imageAnalysis').default;
+
+  app.use('/api/auth', authRoutes);
+  app.use('/api/users', userRoutes);
+  app.use('/api/food-logs', foodLogRoutes);
+  app.use('/api/activity-logs', activityLogRoutes);
+  app.use('/api/image-analysis', imageAnalysisRoutes);
+  
+  console.log('[API] Routes loaded successfully');
+} catch (error: any) {
+  console.error('[API] Error loading routes:', error?.message || error);
+}
 
 console.log('[API] Initialization complete');
 
