@@ -6,8 +6,6 @@ import Card from "../components/ui/Card"
 import ProgressBar from "../components/ui/ProgressBar"
 import { Activity, FlameIcon, HamburgerIcon, Ruler, ScaleIcon, TrendingUpIcon, ZapIcon } from "lucide-react"
 import CaloriesChart from "../components/ui/CaloriesChart"
-// import { , type ActivityEntry } from "../types"
-
 
 const Dashboard = () => {
 
