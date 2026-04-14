@@ -11,7 +11,7 @@ An intelligent full-stack web application designed to help you track your daily 
 
 ## 🛠 Tech Stack
 
-### Frontend
+### Frontend 
 - **Framework**: React 18, Vite
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
